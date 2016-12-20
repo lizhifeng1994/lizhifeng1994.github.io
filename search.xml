@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+    
+    <entry>
+      <title><![CDATA[如何搭建一个个人博客]]></title>
+      <url>http://yoursite.com/2016/12/20/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</url>
+      <content type="html"><![CDATA[<p>Hexo+Github搭建一个个人博客</p>
+<a id="more"></a>
+<h2 id="1-安装NodeJS"><a href="#1-安装NodeJS" class="headerlink" title="1.安装NodeJS"></a>1.安装NodeJS</h2><p>这里就不一一详述了，给大家推荐一篇<a href="http://www.runoob.com/nodejs/nodejs-install-setup.html" target="_blank" rel="external">文章</a>,按照上面的步骤来即可。</p>
+<h2 id="2-注册Github-安装Git"><a href="#2-注册Github-安装Git" class="headerlink" title="2.注册Github,安装Git"></a>2.注册Github,安装Git</h2><p><a href="https://git-scm.com/downloads" target="_blank" rel="external">下载Git</a></p>
+<p><a href="https://github.com/" target="_blank" rel="external">Github注册</a></p>
+<p><a href="http://www.cnblogs.com/peterzd/archive/2012/04/22/2465230.html" target="_blank" rel="external">然后配置Git</a></p>
+<h2 id="3-安装Hexo"><a href="#3-安装Hexo" class="headerlink" title="3.安装Hexo"></a>3.安装Hexo</h2><p><a href="https://hexo.io/zh-cn/" target="_blank" rel="external">Hexo官网</a></p>
+<p>打开命令行工具，按照以下输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">npm install hexo-cli -g</div><div class="line">hexo init blog</div><div class="line"><span class="built_in">cd</span> blog</div><div class="line">npm install</div><div class="line">hexo server</div></pre></td></tr></table></figure>
+<p>浏览器输入localhost:4000就可以在本地看到你的个人博客了</p>
+<h2 id="4-MarkDown写博客"><a href="#4-MarkDown写博客" class="headerlink" title="4.MarkDown写博客"></a>4.MarkDown写博客</h2><p>真心推荐MarkDown来写文章也好，做笔记也好</p>
+<ol>
+<li><p>简洁</p>
+</li>
+<li><p>方便</p>
+</li>
+</ol>
+<p><a href="http://wowubuntu.com/markdown/" target="_blank" rel="external">详细了解</a></p>
+<h2 id="5-提交到Github"><a href="#5-提交到Github" class="headerlink" title="5.提交到Github"></a>5.提交到Github</h2><p>先在本地把内容都编辑好</p>
+<p>这里你要在Github建立一个仓库(repository)</p>
+<p><em>注意了，仓库的命名必须是Github用户名.github.io</em></p>
+<p>改一下配置文件_config.yml</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">deploy:</div><div class="line">  <span class="built_in">type</span>: git</div><div class="line">  repo: git@github.com:username/username.github.io.git //具体看你的地址</div><div class="line">  branch: master</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hexo generate //转换成静态文件</div><div class="line">hexo deploy //提交到Github</div><div class="line">这里可能会报错  error deployer not found:git</div><div class="line">运行这个命令npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
+<p>在浏览器输入https:username.github.io就可以看到你的个人博客了</p>
+<blockquote>
+<p>写的很匆忙，然后可能没接触过nodejs会有点困难，关于MarkDown和Hexo这里也介绍的很简单，其实搭建完成之后就是用MarkDown写好文章，提交到Github。Hexo官网文档很舒服，然后也有很多博客主题给你选择，我觉得还是蛮好的。然后Git和Github网上资料也是很多的。</p>
+</blockquote>
+]]></content>
+    </entry>
+    
+  
+  
+</search>
