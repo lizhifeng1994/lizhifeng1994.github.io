@@ -5,7 +5,7 @@
     
     <entry>
       <title><![CDATA[如何搭建一个个人博客]]></title>
-      <url>https://domain.com/2016/12/20/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</url>
+      <url>http://yoursite.com/2016/12/20/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</url>
       <content type="html"><![CDATA[<p>Hexo+Github搭建一个个人博客</p>
 <a id="more"></a>
 <h2 id="1-安装NodeJS"><a href="#1-安装NodeJS" class="headerlink" title="1.安装NodeJS"></a>1.安装NodeJS</h2><p>这里就不一一详述了，给大家推荐一篇<a href="http://www.runoob.com/nodejs/nodejs-install-setup.html" target="_blank" rel="external">文章</a>,按照上面的步骤来即可。</p>
