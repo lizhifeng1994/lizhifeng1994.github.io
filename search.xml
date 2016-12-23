@@ -4,6 +4,46 @@
   
     
     <entry>
+      <title><![CDATA[简单谈谈存储过程]]></title>
+      <url>https://yoursite.com/2016/12/23/%E7%AE%80%E5%8D%95%E8%B0%88%E8%B0%88%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B/</url>
+      <content type="html"><![CDATA[<p>在DailyReocrd中用到了存储过程，这里做一个简单的记录和总结。</p>
+<a id="more"></a>
+<h2 id="1-什么是存储过程？"><a href="#1-什么是存储过程？" class="headerlink" title="1. 什么是存储过程？"></a>1. 什么是存储过程？</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>存储过程:是一种在数据库中存储复杂程序，以便外部程序调用的一种数据库对象，它可以视为数据库中的一种函数或子程序。</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><ol>
+<li><p>定义存储过程</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">CREATE PROCEDURE procedure_name</div><div class="line">(</div><div class="line">  [ IN | OUT | INOUT ] param_name <span class="built_in">type</span></div><div class="line">)</div><div class="line">BEGIN</div><div class="line">  //SQL statement</div><div class="line">END</div></pre></td></tr></table></figure>
+<p>IN 输入参数<br>表示该参数的值必须在调用存储过程中调用，在存储过程中该参数的值不能被返回，为默认值</p>
+<p>OUT 输出参数<br>可在存储过程内部被改变，并可返回</p>
+<p>INOUT 输入输出参数<br>调用时指定，并且可改变和返回</p>
+</li>
+<li><p>调用存储过程</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">CALL procedure_name</div><div class="line">(</div><div class="line">  //输入参数 也就是定义为IN和INOUT</div><div class="line">  //输出参数 @param_name</div><div class="line">  //参数的顺序要与定义时的顺序一样</div><div class="line">)</div><div class="line"></div><div class="line">例如下面试调用一个没有输入参数，只有输出参数的存储过程，并得到存储过程的返回值</div><div class="line">call <span class="built_in">test</span>(@out);</div><div class="line">select @out;</div></pre></td></tr></table></figure>
+</li>
+<li><p>删除存储过程</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DROP PROCEDURE procedure_name</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="2-存储过程的优缺点"><a href="#2-存储过程的优缺点" class="headerlink" title="2. 存储过程的优缺点?"></a>2. 存储过程的优缺点?</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
+<li><p>对复杂的业务逻辑，存储过程可以进行封装，既简化程序，也可以网络流量之间的消耗</p>
+</li>
+<li><p>存储过程只在创造时进行编译，而SQL语句每执行一次就编译一次，使用存储过程可以提高数据库的执行速度</p>
+</li>
+<li><p>存储过程可以接受多个参数，也可以返回多个参数，非常灵活</p>
+</li>
+</ol>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li>受制于不同数据库，移植性差</li>
+</ol>
+<h2 id="3-个人项目中对存储过程的使用"><a href="#3-个人项目中对存储过程的使用" class="headerlink" title="3. 个人项目中对存储过程的使用"></a>3. 个人项目中对存储过程的使用</h2><p>在我的个人项目DailyRecord中，我在两个地方用了存储过程，这两个地方业务需求差不多，我就挑一个讲讲。</p>
+<p>在我的首页中需要显示我的总支出数目、总收入数目和总账目数，加入不用存储过程，我的解决方法是：<br>1.去支出表得到总支出金额和总支出账目数<br>2.去收入表得到总收入金额和总收入账目数<br>3.然后将总支出账目数和总收入账目数相加得到总账目数<br>然后我用存储过程将上面封装起来，给三个传出参数即可，只要调用该存储过程即可，非常方便，并且不容易出错。</p>
+<p>还有一个小建议：<br>如果你的的存储过程有输出参数，直接在存储过程中<code>SELECT 输出参数</code>，调用存储过程就可以直接获得结果，比较方便。</p>
+<blockquote>
+<p>当你业务需求比较复杂，需要进行多表、多SQL操作，可以将其封装成一个存储过程，提高性能，简化工作</p>
+</blockquote>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[如何搭建一个个人博客]]></title>
       <url>https://yoursite.com/2016/12/20/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</url>
       <content type="html"><![CDATA[<p>Hexo+Github搭建一个个人博客</p>
