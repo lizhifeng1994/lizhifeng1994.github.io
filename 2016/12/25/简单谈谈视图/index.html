@@ -6,15 +6,15 @@
   <meta http-equiv="cache-control" content="no-cache">
   <meta http-equiv="expires" content="0">
   
-  <title>简单谈谈存储过程 | CCSU_LZF</title>
+  <title>简单谈谈视图 | CCSU_LZF</title>
   <meta name="author" content="lzf">
   
-  <meta name="description" content="在DailyReocrd中用到了存储过程，这里做一个简单的记录和总结。">
+  <meta name="description" content="在DailyReocrd中用到了视图，这里做一个简单的记录和总结。">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="简单谈谈存储过程"/>
+  <meta property="og:title" content="简单谈谈视图"/>
   <meta property="og:site_name" content="CCSU_LZF"/>
 
   
@@ -112,7 +112,7 @@ var _hmt = _hmt || [];
 
 	
 		<div class="page-header">
-			<h1> 简单谈谈存储过程</h1>
+			<h1> 简单谈谈视图</h1>
 		</div>
 	
 
@@ -129,40 +129,19 @@ var _hmt = _hmt || [];
 	<div class="mypage">		
 	  		
 
-	  <p>在DailyReocrd中用到了存储过程，这里做一个简单的记录和总结。</p>
+	  <p>在DailyReocrd中用到了视图，这里做一个简单的记录和总结。</p>
 <a id="more"></a>
-<h2 id="1-什么是存储过程？"><a href="#1-什么是存储过程？" class="headerlink" title="1. 什么是存储过程？"></a>1. 什么是存储过程？</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>存储过程:是一种在数据库中存储复杂程序，以便外部程序调用的一种数据库对象，它可以视为数据库中的一种函数或子程序。</p>
-<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><ol>
-<li><p>定义存储过程</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">CREATE PROCEDURE procedure_name</div><div class="line">(</div><div class="line">  [ IN | OUT | INOUT ] param_name <span class="built_in">type</span></div><div class="line">)</div><div class="line">BEGIN</div><div class="line">  //SQL statement</div><div class="line">END</div></pre></td></tr></table></figure>
-<p>IN 输入参数<br>表示该参数的值必须在调用存储过程中调用，在存储过程中该参数的值不能被返回，为默认值</p>
-<p>OUT 输出参数<br>可在存储过程内部被改变，并可返回</p>
-<p>INOUT 输入输出参数<br>调用时指定，并且可改变和返回</p>
-</li>
-<li><p>调用存储过程</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">CALL procedure_name</div><div class="line">(</div><div class="line">  //输入参数 也就是定义为IN和INOUT</div><div class="line">  //输出参数 @param_name</div><div class="line">  //参数的顺序要与定义时的顺序一样</div><div class="line">)</div><div class="line"></div><div class="line">例如下面试调用一个没有输入参数，只有输出参数的存储过程，并得到存储过程的返回值</div><div class="line">call <span class="built_in">test</span>(@out);</div><div class="line">select @out;</div></pre></td></tr></table></figure>
-</li>
-<li><p>删除存储过程</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DROP PROCEDURE procedure_name</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="2-存储过程的优缺点"><a href="#2-存储过程的优缺点" class="headerlink" title="2. 存储过程的优缺点?"></a>2. 存储过程的优缺点?</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
-<li><p>对复杂的业务逻辑，存储过程可以进行封装，既简化程序，也可以网络流量之间的消耗</p>
-</li>
-<li><p>存储过程只在创造时进行编译，而SQL语句每执行一次就编译一次，使用存储过程可以提高数据库的执行速度</p>
-</li>
-<li><p>存储过程可以接受多个参数，也可以返回多个参数，非常灵活</p>
-</li>
-</ol>
-<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
-<li>受制于不同数据库，移植性差</li>
-</ol>
-<h2 id="3-个人项目中对存储过程的使用"><a href="#3-个人项目中对存储过程的使用" class="headerlink" title="3. 个人项目中对存储过程的使用"></a>3. 个人项目中对存储过程的使用</h2><p>在我的个人项目DailyRecord中，我在两个地方用了存储过程，这两个地方业务需求差不多，我就挑一个讲讲。</p>
-<p>在我的首页中需要显示我的总支出数目、总收入数目和总账目数，加入不用存储过程，我的解决方法是：<br>1.去支出表得到总支出金额和总支出账目数<br>2.去收入表得到总收入金额和总收入账目数<br>3.然后将总支出账目数和总收入账目数相加得到总账目数<br>然后我用存储过程将上面封装起来，给三个传出参数即可，只要调用该存储过程即可，非常方便，并且不容易出错。</p>
-<p>还有一个小建议：<br>如果你的的存储过程有输出参数，直接在存储过程中<code>SELECT 输出参数</code>，调用存储过程就可以直接获得结果，比较方便。</p>
-<blockquote>
-<p>当你业务需求比较复杂，需要进行多表、多SQL操作，可以将其封装成一个存储过程，提高性能，简化工作</p>
-</blockquote>
+<h2 id="1-什么视图"><a href="#1-什么视图" class="headerlink" title="1. 什么视图"></a>1. 什么视图</h2><p>视图是在关系数据库中，将一组查询指令构成的结果集，组合成可查询的数据表的一种数据库对象。视图是一个虚拟表，行和列的定义来自由定义视图的查询所引用的表，并且在引用视图时动态生成。视图是不会存储数据的，在视图被引用的时候才派生出数据。</p>
+<h2 id="2-视图的相关操作"><a href="#2-视图的相关操作" class="headerlink" title="2. 视图的相关操作"></a>2. 视图的相关操作</h2><h3 id="1-定义一个视图"><a href="#1-定义一个视图" class="headerlink" title="1. 定义一个视图"></a>1. 定义一个视图</h3>  <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> view_name</div><div class="line">  <span class="keyword">AS</span></div><div class="line">select_statement</div></pre></td></tr></table></figure>
+<h3 id="2-修改视图"><a href="#2-修改视图" class="headerlink" title="2. 修改视图"></a>2. 修改视图</h3>  <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ALTER</span> <span class="keyword">VIEW</span> test_view</div><div class="line">  <span class="keyword">AS</span></div><div class="line">select_statement</div></pre></td></tr></table></figure>
+<h3 id="3-删除视图"><a href="#3-删除视图" class="headerlink" title="3. 删除视图"></a>3. 删除视图</h3>  <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">DROP</span> <span class="keyword">VIEW</span> view_name</div></pre></td></tr></table></figure>
+<h2 id="3-视图在个人项目中的应用"><a href="#3-视图在个人项目中的应用" class="headerlink" title="3. 视图在个人项目中的应用"></a>3. 视图在个人项目中的应用</h2><p>在我的个人项目中首先我有个业务需求：要查看这一年的每个月的收入和支出情况。<br>所以我对收入和支出分别建立一个月收入和月支出的视图。</p>
+<p>首先我想到的是直接用SQL语句就行了，为什么要用视图呢？</p>
+<p>然后我把SQL语句一写</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span></div><div class="line">  <span class="string">`table_sr`</span>.<span class="string">`USER_ID`</span> <span class="keyword">AS</span> <span class="string">`USER_ID`</span>,</div><div class="line">  <span class="keyword">date_format</span>(</div><div class="line">    <span class="string">`table_sr`</span>.<span class="string">`SR_DATE`</span>,</div><div class="line">    <span class="string">'%Y-%m'</span></div><div class="line">  ) <span class="keyword">AS</span> <span class="string">`SR_MONTH`</span>,</div><div class="line">  <span class="keyword">count</span>(<span class="string">`table_sr`</span>.<span class="string">`SR_ID`</span>) <span class="keyword">AS</span> <span class="string">`SR_COUNT`</span>,</div><div class="line">  <span class="keyword">sum</span>(<span class="string">`table_sr`</span>.<span class="string">`SR_MONEY`</span>) <span class="keyword">AS</span> <span class="string">`SR_MONEY`</span></div><div class="line"><span class="keyword">FROM</span></div><div class="line">  <span class="string">`table_sr`</span></div><div class="line"><span class="keyword">WHERE</span></div><div class="line">  (<span class="string">`table_sr`</span>.<span class="string">`SR_FLAG`</span> = <span class="string">'0'</span>)</div><div class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span></div><div class="line">  <span class="string">`SR_MONTH`</span>,</div><div class="line">  <span class="string">`table_sr`</span>.<span class="string">`USER_ID`</span></div></pre></td></tr></table></figure>
+<p>想想还是用视图吧，我的理由如下：</p>
+<p>将复杂查询包装在视图中可以用来简化查询</p>
+<p>不用管视图，我只要维护好真实表的内容，就可以保证视图的完整性了</p>
 	  
 	</div>
 
@@ -172,13 +151,12 @@ var _hmt = _hmt || [];
 
     
     
-    <a href="/2016/12/25/简单谈谈视图/" type="button" class="btn btn-default"><i
-                class="fa fa-arrow-circle-o-left"></i> Prev</a>
+    <a type="button" class="btn btn-default disabled"><i class="fa fa-arrow-circle-o-left"></i>Prev</a>
     
 
     <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
     
-    <a href="/2016/12/20/如何搭建一个个人博客/" type="button" class="btn btn-default ">Next<i
+    <a href="/2016/12/23/简单谈谈存储过程/" type="button" class="btn btn-default ">Next<i
                 class="fa fa-arrow-circle-o-right"></i></a>
     
 
@@ -207,7 +185,7 @@ var _hmt = _hmt || [];
 	
 	<div class="meta-widget">
 	<i class="fa fa-clock-o"></i>
-	2016-12-23 
+	2016-12-25 
 	</div>
 	
 
@@ -231,7 +209,7 @@ var _hmt = _hmt || [];
 	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
     <ul id="tags" class="tag_box list-unstyled collapse in">	  
 	    
-  <li><a href="/tags/MySQL/">MySQL<span>2</span></a></li> <li><a href="/tags/存储过程/">存储过程<span>1</span></a></li>
+  <li><a href="/tags/MySQL/">MySQL<span>2</span></a></li> <li><a href="/tags/视图/">视图<span>1</span></a></li>
     </ul>
 	</div>
 		
