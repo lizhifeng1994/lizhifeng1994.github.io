@@ -4,6 +4,53 @@
   
     
     <entry>
+      <title><![CDATA[简单谈谈触发器]]></title>
+      <url>https://yoursite.com/2017/01/05/%E7%AE%80%E5%8D%95%E8%B0%88%E8%B0%88%E8%A7%A6%E5%8F%91%E5%99%A8/</url>
+      <content type="html"><![CDATA[<p>在DailyReocrd中用到了触发器，这里做一个简单的记录和总结。</p>
+<a id="more"></a>
+<h2 id="1-什么是触发器"><a href="#1-什么是触发器" class="headerlink" title="1. 什么是触发器"></a>1. 什么是触发器</h2><p>触发器是在数据库中，在执行对数据有异动的动作时，先行拦截并处理的一种数据库对象。当触发器所在表上出现指定事件时，将调用该对象，即表的操作事件触发表上的触发器的执行。</p>
+<h2 id="2-触发器的相关操作"><a href="#2-触发器的相关操作" class="headerlink" title="2. 触发器的相关操作"></a>2. 触发器的相关操作</h2><h3 id="1-定义一个触发器"><a href="#1-定义一个触发器" class="headerlink" title="1. 定义一个触发器"></a>1. 定义一个触发器</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">CREATE</span></div><div class="line">  [DEFINER = &#123; <span class="keyword">user</span> | <span class="keyword">CURRENT_USER</span> &#125;]</div><div class="line">  <span class="keyword">TRIGGER</span> trigger_name</div><div class="line">  trigger_time trigger_event</div><div class="line">  <span class="keyword">ON</span> tb_name <span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span></div><div class="line">  <span class="keyword">BEGIN</span></div><div class="line">    //sql_statement</div><div class="line">  <span class="keyword">END</span></div><div class="line"></div><div class="line">trigger_time: &#123; <span class="keyword">BEFORE</span> | <span class="keyword">AFTER</span> &#125;</div><div class="line"></div><div class="line">trigger_event: &#123; <span class="keyword">INSERT</span> | <span class="keyword">UPDATE</span> | <span class="keyword">DELETE</span> &#125;</div></pre></td></tr></table></figure>
+<p>NEW和OLD用来访问受触发器影响的行中的列</p>
+<ol>
+<li><p>在INSERT触发器，因为没有原数据，所以只用NEW来表示新插入的数据</p>
+</li>
+<li><p>在DELETE触发器，因为没有新数据，所以只用OLD来表示删除的数据</p>
+</li>
+<li><p>在UPDATE触发器，用OLD来表示更新之前的数据，用NEW来表示更新之后的数据</p>
+</li>
+</ol>
+<p>定义一个触发器要注意以下几点:</p>
+<ol>
+<li><p>触发器不能定义在临时表或者视图上</p>
+</li>
+<li><p>触发器命名唯一</p>
+</li>
+<li><p>OLD是只读的，在BEFORE触发器中，可以使用SET NEW.col_name更改其值，但是SET在AFTER中没有作用，因为行更改已经发生</p>
+</li>
+<li><p>在BEFORE触发器中，AUTO_INCREMENT列的NEW值为0，而不是实际插入新行时自动生成的序列号</p>
+</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">//关于第四点来做个实验</div><div class="line"></div><div class="line">//首先建立一个表，并且插入一条记录</div><div class="line">mysql&gt; select * from haha;</div><div class="line">+--------+----------+</div><div class="line">| testID | testNAME |</div><div class="line">+--------+----------+</div><div class="line">|      1 | 1        |</div><div class="line">+--------+----------+</div><div class="line">1 row in set</div><div class="line"></div><div class="line">//写一个触发器</div><div class="line">DROP TRIGGER IF EXISTS test_haha; </div><div class="line">CREATE TRIGGER test_haha</div><div class="line">BEFORE INSERT ON haha FOR EACH ROW</div><div class="line">BEGIN</div><div class="line">    IF NEW.testID = 0 THEN</div><div class="line">         SET NEW.testName = 100;</div><div class="line">    END IF;</div><div class="line">END;</div><div class="line"></div><div class="line">//然后再插入一条记录</div><div class="line">INSERT haha(testName) VALUES(10000)</div><div class="line"></div><div class="line">//再查看表</div><div class="line"></div><div class="line">mysql&gt; select * from haha;</div><div class="line">+--------+----------+</div><div class="line">| testID | testNAME |</div><div class="line">+--------+----------+</div><div class="line">|      1 | 1        |</div><div class="line">|      4 | 100      |</div><div class="line">+--------+----------+</div><div class="line">2 rows in set</div></pre></td></tr></table></figure>
+<h3 id="2-查看触发器"><a href="#2-查看触发器" class="headerlink" title="2. 查看触发器"></a>2. 查看触发器</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//查看触发器的详细信息</div><div class="line"><span class="keyword">show</span> <span class="keyword">TRIGGERS</span>;</div></pre></td></tr></table></figure>
+<h3 id="3-删除触发器"><a href="#3-删除触发器" class="headerlink" title="3. 删除触发器"></a>3. 删除触发器</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">DROP</span> <span class="keyword">TRIGGER</span> [<span class="keyword">IF</span> <span class="keyword">EXISTS</span>] [schema_name.]trigger_name</div></pre></td></tr></table></figure>
+<h2 id="3-触发器在个人项目中的作用"><a href="#3-触发器在个人项目中的作用" class="headerlink" title="3. 触发器在个人项目中的作用"></a>3. 触发器在个人项目中的作用</h2><p>业务需求：我对支出和收入都有一个标注账目，也就是对你有意义的账目，然后再首页将以列表的形式进行显示。</p>
+<p>我的做法：建立一个标注账目表，然后对支出表和收入表建立触发器，触发器会更新(我这里删除只是逻辑删除)/新增标注账目表</p>
+<p>UPDATE触发器有以下几种情况(以收入表为例)：</p>
+<ol>
+<li><p>当我是标注账目(OLD.SR_FLAG=”0” AND OLD.SR_STAR=”1” AND NEW.SR_STAR=”0”)进行撤销时<br>DELETE</p>
+</li>
+<li><p>当我不是标注账目然后把它标注成标注账目是OLD.SR_FLAG=”0” AND OLD.SR_STAR=”0” AND NEW.SR_STAR=”1”<br>INSERT</p>
+</li>
+<li><p>当我删除标注账目时(NEW.SR_FLAG=”1” AND OLD.SR_STAR=”1”)<br>DELETE</p>
+</li>
+<li><p>当我编辑这个账目的其他类容时(NEW.SR_FLAG=”0” AND NEW.SR_STAR=”1”)<br>UPDATE</p>
+</li>
+</ol>
+<p>INSERT触发器比较简单，就是插入标注账目时，也对表标注账目表进行插入</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[不是影评--《坏孩子的天空》]]></title>
       <url>https://yoursite.com/2016/12/25/%E4%B8%8D%E6%98%AF%E5%BD%B1%E8%AF%84-%E3%80%8A%E5%9D%8F%E5%AD%A9%E5%AD%90%E7%9A%84%E5%A4%A9%E7%A9%BA%E3%80%8B/</url>
       <content type="html"><![CDATA[<p>先不说国产青春片是否狗血，最起码它非常不真实，用它来怀念逝去的青春，总感觉很荒诞。推荐一部日式青春片–《坏孩子的天空》。</p>
