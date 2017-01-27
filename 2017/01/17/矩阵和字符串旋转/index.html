@@ -1,0 +1,272 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>矩阵和字符串旋转 | CCSU_LZF</title>
+  <meta name="author" content="lzf">
+  
+  <meta name="description" content="这里有三道题目记录一下">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="矩阵和字符串旋转"/>
+  <meta property="og:site_name" content="CCSU_LZF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-70812759-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?cb5448498d7169c668b07c2b255d62c1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">CCSU_LZF</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> 矩阵和字符串旋转</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>这里有三道题目记录一下</p>
+<a id="more"></a>
+<p>1.给定一副N*N矩阵表示的的图像，其中每个图像的像素大小为4字节，编写一个方法，将图像旋转90°。不占用额外的内存空间</p>
+<p>首先我们这里可以举例说明</p>
+<p>1 2 3   |  7 2 1   |  7 4 1<br>4 5 6   |  4 5 6   |  8 5 2<br>7 8 9   |  9 8 3   |  9 6 3</p>
+<p>我们可以发现 左-&gt;上 下-&gt;左 右-&gt;下 上-&gt;右  这样的一个旋转</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">(<span class="keyword">int</span>[] a,<span class="keyword">int</span> n)</span></span>&#123;</div><div class="line">  <span class="comment">//外层循环控制旋转几次</span></div><div class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> layer=<span class="number">0</span>;layer&lt;n/<span class="number">2</span>;layer++)&#123;</div><div class="line">    <span class="keyword">int</span> first = layer;</div><div class="line">    <span class="keyword">int</span> last = n-layer-<span class="number">1</span>;</div><div class="line">    <span class="comment">//每次旋转要调整的位置</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;last;i++)&#123;</div><div class="line">      <span class="comment">//偏移量</span></div><div class="line">      <span class="keyword">int</span> coffset = i - first;</div><div class="line">      </div><div class="line">      <span class="keyword">int</span> top = a[first][i];</div><div class="line">      </div><div class="line">      <span class="comment">//左到上</span></div><div class="line">      a[first][i] = a[last-coffset][first];</div><div class="line"></div><div class="line">      <span class="comment">//下到左</span></div><div class="line">      a[last-coffset][first] = a[last][last-coffset];</div><div class="line">      </div><div class="line">      <span class="comment">//右到下</span></div><div class="line">      a[last][last-coffset] = a[i][last];</div><div class="line">      </div><div class="line">      <span class="comment">//上到右</span></div><div class="line">      a[i][last] = top;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>2.编写一个算法，若M*N矩阵中某个元素为0，则将其所在的行与列清零。</p>
+<p>当你想：元素为0，则所在行与列都清0，但是你又会遍历到，然后你整个矩阵都是0了。<br>所以你要记录元素为0，i和j的值，然后再遍历整个矩阵，如果(i||j)==0,则把a[i][j]=0。用两个boolean数据记录i，j的值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">(<span class="keyword">int</span>[][] a)</span></span>&#123;</div><div class="line">  <span class="comment">//记录i的值，也就是所在的行</span></div><div class="line">  <span class="keyword">boolean</span>[] row = <span class="keyword">new</span> <span class="keyword">boolean</span>[a.length];</div><div class="line">  <span class="comment">//记录j的值，也就是所在列</span></div><div class="line">  <span class="keyword">boolean</span>[] column = <span class="keyword">new</span> <span class="keyword">boolean</span>[a[<span class="number">0</span>].length];</div><div class="line"></div><div class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length;i++)&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;a[<span class="number">0</span>].length;j++)&#123;</div><div class="line">        <span class="keyword">if</span>(a[i][j]==<span class="number">0</span>)&#123;</div><div class="line">          row[i] = <span class="keyword">true</span>;</div><div class="line">          column[j] = <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length;i++)&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;a[<span class="number">0</span>].length;j++)&#123;</div><div class="line">      <span class="keyword">if</span>(row[i]||column[j])&#123;</div><div class="line">        a[i][j] = <span class="number">0</span>;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>3.假定有一个方法isSubstring，可检查一个单词是否为其他字符串的字串。给定两个字符串s1和s2，请写代码检查s2是否为s1旋转而成，要求只能调用一次isSubString。(比如waterbootle是erbootlewat旋转而来)</p>
+<p>来，先做一个题目<br>设 x = wat, y = erbootle<br>则 s1 = x+y<br>   s2 = y+x</p>
+<p>所以 s1+s1 = x+y+x+y 必定包含 y+x = s2;     </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">method</span><span class="params">(String s1, String s2)</span></span>&#123;</div><div class="line">  <span class="keyword">if</span>(s1.length() != s2.length())<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">  <span class="comment">//java中字符串的contains()也就是题目中的isSubString()</span></div><div class="line">  <span class="keyword">return</span> (s1+s1).contains(s2);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+
+    
+    
+    <a type="button" class="btn btn-default disabled"><i class="fa fa-arrow-circle-o-left"></i>Anterior</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2017/01/15/确定一个字符串的所有字符是否全部不同/" type="button" class="btn btn-default ">Próximo<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+<section id="comment">
+    <h2 class="title">Comentários</h2>
+
+    
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2017-01-17 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/技术/">技术<span>6</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/Java/">Java<span>2</span></a></li> <li><a href="/tags/算法/">算法<span>2</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2017 lzf
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a>,<a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>,<a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a> and <a href="http://getbootstrap.com/" target="_blank">BOOTSTRA.386</a>. 
+     <br> Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind.386</a>.    
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

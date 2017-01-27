@@ -1,0 +1,325 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>确定一个字符串的所有字符是否全部不同 | CCSU_LZF</title>
+  <meta name="author" content="lzf">
+  
+  <meta name="description" content="实现一个算法，确定一个字符串的所有字符是否全部不同？假使不允许使用额外的数据结构，又该如何处理？">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="确定一个字符串的所有字符是否全部不同"/>
+  <meta property="og:site_name" content="CCSU_LZF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-70812759-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?cb5448498d7169c668b07c2b255d62c1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">CCSU_LZF</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> 确定一个字符串的所有字符是否全部不同</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>实现一个算法，确定一个字符串的所有字符是否全部不同？假使不允许使用额外的数据结构，又该如何处理？</p>
+<a id="more"></a>
+<p>首先我自己的解法</p>
+<p>解法一：暴力破解<br>时间复杂度为O(n^2)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">method</span><span class="params">(String s)</span></span>&#123;</div><div class="line">  <span class="keyword">char</span>[] cArray = s.toCharArray();</div><div class="line">  <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</div><div class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;cArray.length;i++)&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;cArray.length;j++)&#123;</div><div class="line">      <span class="keyword">if</span>(cArray[i]==cArray[j])&#123;</div><div class="line">        flag = <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> flag;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>解法二：运用String字符串相关方法<br>把第i个字符提取出来，和剩下的字符串相比较<br>时间复杂度为O(n^2)<br>因为这里拼接字符串，每次都进行了(n-1)字符拷贝<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">method</span><span class="params">(String s)</span></span>&#123;</div><div class="line">  <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</div><div class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.length();i++)&#123;</div><div class="line">    String temp = s.substring(<span class="number">0</span>, i)+s.substring(i+<span class="number">1</span>, s.length());</div><div class="line">    <span class="keyword">if</span>(temp.contains(s.subSequence(i,i+<span class="number">1</span>)))&#123;</div><div class="line">      flag = <span class="keyword">false</span>;</div><div class="line">      <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> flag;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>解法三：构建一个布尔数组，索引值i对应的标记指示该字符串是否含有字母表第i个字符。若这个字符第二次出现，则返回false</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">method</span><span class="params">(String s)</span> </span>&#123;</div><div class="line"><span class="comment">// ASCII码，只有256个字符</span></div><div class="line">  <span class="keyword">if</span>(s.length()&gt;<span class="number">256</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">  <span class="keyword">boolean</span>[] char_set = <span class="keyword">new</span> <span class="keyword">boolean</span>[<span class="number">256</span>];</div><div class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.length();i++)&#123;</div><div class="line"><span class="comment">//  获取s字符串的第i个字符，并且自动转换成int</span></div><div class="line">    <span class="keyword">int</span> temp = s.charAt(i);</div><div class="line">    <span class="keyword">if</span>(char_set[temp]==<span class="keyword">true</span>)&#123;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">    char_set[temp] = <span class="keyword">true</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>解法四：使用位运算，只需要一个int变量</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">method4</span><span class="params">(String s)</span></span>&#123;</div><div class="line">  <span class="keyword">if</span>(s.length()&gt;<span class="number">26</span>) <span class="keyword">return</span> <span class="keyword">false</span>; </div><div class="line">  <span class="keyword">int</span> checker = <span class="number">0</span>;</div><div class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.length();i++)&#123;</div><div class="line">    <span class="keyword">int</span> val = s.charAt(i)-<span class="string">'a'</span>;</div><div class="line">    <span class="keyword">if</span>((checker &amp; (<span class="number">1</span>&lt;&lt;val))&gt;<span class="number">0</span>)&#123;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">    checker |= (<span class="number">1</span>&lt;&lt;val);</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们以”helho”举例<br>‘a’ASCII为97</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>val</th>
+<th>checker</th>
+<th>1&lt;&lt;val</th>
+<th>checker&amp;(1&lt;&lt;val)</th>
+<th>(checkerI(1&lt;&lt;val)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>h-104</td>
+<td>7</td>
+<td>0</td>
+<td>2^7</td>
+<td>0</td>
+<td>2^7</td>
+</tr>
+<tr>
+<td>e-101</td>
+<td>4</td>
+<td>2^7</td>
+<td>2^4</td>
+<td>0</td>
+<td>2^7+2^4</td>
+</tr>
+<tr>
+<td>l-108</td>
+<td>11</td>
+<td>2^7+2^4</td>
+<td>2^11</td>
+<td>0</td>
+<td>2^11+2^7+2^4</td>
+</tr>
+<tr>
+<td>h-104</td>
+<td>7</td>
+<td>2^11+2^7+2^4</td>
+<td>2^7</td>
+<td>2^7 返回false</td>
+</tr>
+<tr>
+<td>如果是大写的话</td>
+</tr>
+<tr>
+<td>H-72</td>
+<td>-25</td>
+<td>2^11+2^7+2^4</td>
+<td>2^7</td>
+<td>2^7返回false </td>
+</tr>
+</tbody>
+</table>
+<p>这个算法的精妙之处在于我们用位运算+int保存了那个唯一的val，当val再次出现的时候，就立即返回false。但是通过上面的表格我们也可以看出认为大小写是一样的。所以这里字符串要不是a-z或者A-Z。</p>
+	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+
+    
+    
+    <a href="/2017/01/17/矩阵和字符串旋转/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> Anterior</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2017/01/10/Git基本概念和操作/" type="button" class="btn btn-default ">Próximo<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+<section id="comment">
+    <h2 class="title">Comentários</h2>
+
+    
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2017-01-15 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/技术/">技术<span>6</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/Java/">Java<span>2</span></a></li> <li><a href="/tags/算法/">算法<span>2</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2017 lzf
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a>,<a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>,<a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a> and <a href="http://getbootstrap.com/" target="_blank">BOOTSTRA.386</a>. 
+     <br> Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind.386</a>.    
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

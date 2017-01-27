@@ -4,6 +4,140 @@
   
     
     <entry>
+      <title><![CDATA[矩阵和字符串旋转]]></title>
+      <url>https://yoursite.com/2017/01/17/%E7%9F%A9%E9%98%B5%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%97%8B%E8%BD%AC/</url>
+      <content type="html"><![CDATA[<p>这里有三道题目记录一下</p>
+<a id="more"></a>
+<p>1.给定一副N*N矩阵表示的的图像，其中每个图像的像素大小为4字节，编写一个方法，将图像旋转90°。不占用额外的内存空间</p>
+<p>首先我们这里可以举例说明</p>
+<p>1 2 3   |  7 2 1   |  7 4 1<br>4 5 6   |  4 5 6   |  8 5 2<br>7 8 9   |  9 8 3   |  9 6 3</p>
+<p>我们可以发现 左-&gt;上 下-&gt;左 右-&gt;下 上-&gt;右  这样的一个旋转</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">(<span class="keyword">int</span>[] a,<span class="keyword">int</span> n)</span></span>&#123;</div><div class="line">  <span class="comment">//外层循环控制旋转几次</span></div><div class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> layer=<span class="number">0</span>;layer&lt;n/<span class="number">2</span>;layer++)&#123;</div><div class="line">    <span class="keyword">int</span> first = layer;</div><div class="line">    <span class="keyword">int</span> last = n-layer-<span class="number">1</span>;</div><div class="line">    <span class="comment">//每次旋转要调整的位置</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;last;i++)&#123;</div><div class="line">      <span class="comment">//偏移量</span></div><div class="line">      <span class="keyword">int</span> coffset = i - first;</div><div class="line">      </div><div class="line">      <span class="keyword">int</span> top = a[first][i];</div><div class="line">      </div><div class="line">      <span class="comment">//左到上</span></div><div class="line">      a[first][i] = a[last-coffset][first];</div><div class="line"></div><div class="line">      <span class="comment">//下到左</span></div><div class="line">      a[last-coffset][first] = a[last][last-coffset];</div><div class="line">      </div><div class="line">      <span class="comment">//右到下</span></div><div class="line">      a[last][last-coffset] = a[i][last];</div><div class="line">      </div><div class="line">      <span class="comment">//上到右</span></div><div class="line">      a[i][last] = top;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>2.编写一个算法，若M*N矩阵中某个元素为0，则将其所在的行与列清零。</p>
+<p>当你想：元素为0，则所在行与列都清0，但是你又会遍历到，然后你整个矩阵都是0了。<br>所以你要记录元素为0，i和j的值，然后再遍历整个矩阵，如果(i||j)==0,则把a[i][j]=0。用两个boolean数据记录i，j的值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">(<span class="keyword">int</span>[][] a)</span></span>&#123;</div><div class="line">  <span class="comment">//记录i的值，也就是所在的行</span></div><div class="line">  <span class="keyword">boolean</span>[] row = <span class="keyword">new</span> <span class="keyword">boolean</span>[a.length];</div><div class="line">  <span class="comment">//记录j的值，也就是所在列</span></div><div class="line">  <span class="keyword">boolean</span>[] column = <span class="keyword">new</span> <span class="keyword">boolean</span>[a[<span class="number">0</span>].length];</div><div class="line"></div><div class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length;i++)&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;a[<span class="number">0</span>].length;j++)&#123;</div><div class="line">        <span class="keyword">if</span>(a[i][j]==<span class="number">0</span>)&#123;</div><div class="line">          row[i] = <span class="keyword">true</span>;</div><div class="line">          column[j] = <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length;i++)&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;a[<span class="number">0</span>].length;j++)&#123;</div><div class="line">      <span class="keyword">if</span>(row[i]||column[j])&#123;</div><div class="line">        a[i][j] = <span class="number">0</span>;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>3.假定有一个方法isSubstring，可检查一个单词是否为其他字符串的字串。给定两个字符串s1和s2，请写代码检查s2是否为s1旋转而成，要求只能调用一次isSubString。(比如waterbootle是erbootlewat旋转而来)</p>
+<p>来，先做一个题目<br>设 x = wat, y = erbootle<br>则 s1 = x+y<br>   s2 = y+x</p>
+<p>所以 s1+s1 = x+y+x+y 必定包含 y+x = s2;     </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">method</span><span class="params">(String s1, String s2)</span></span>&#123;</div><div class="line">  <span class="keyword">if</span>(s1.length() != s2.length())<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">  <span class="comment">//java中字符串的contains()也就是题目中的isSubString()</span></div><div class="line">  <span class="keyword">return</span> (s1+s1).contains(s2);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[确定一个字符串的所有字符是否全部不同]]></title>
+      <url>https://yoursite.com/2017/01/15/%E7%A1%AE%E5%AE%9A%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%89%80%E6%9C%89%E5%AD%97%E7%AC%A6%E6%98%AF%E5%90%A6%E5%85%A8%E9%83%A8%E4%B8%8D%E5%90%8C/</url>
+      <content type="html"><![CDATA[<p>实现一个算法，确定一个字符串的所有字符是否全部不同？假使不允许使用额外的数据结构，又该如何处理？</p>
+<a id="more"></a>
+<p>首先我自己的解法</p>
+<p>解法一：暴力破解<br>时间复杂度为O(n^2)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">method</span><span class="params">(String s)</span></span>&#123;</div><div class="line">  <span class="keyword">char</span>[] cArray = s.toCharArray();</div><div class="line">  <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</div><div class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;cArray.length;i++)&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;cArray.length;j++)&#123;</div><div class="line">      <span class="keyword">if</span>(cArray[i]==cArray[j])&#123;</div><div class="line">        flag = <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> flag;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>解法二：运用String字符串相关方法<br>把第i个字符提取出来，和剩下的字符串相比较<br>时间复杂度为O(n^2)<br>因为这里拼接字符串，每次都进行了(n-1)字符拷贝<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">method</span><span class="params">(String s)</span></span>&#123;</div><div class="line">  <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</div><div class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.length();i++)&#123;</div><div class="line">    String temp = s.substring(<span class="number">0</span>, i)+s.substring(i+<span class="number">1</span>, s.length());</div><div class="line">    <span class="keyword">if</span>(temp.contains(s.subSequence(i,i+<span class="number">1</span>)))&#123;</div><div class="line">      flag = <span class="keyword">false</span>;</div><div class="line">      <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> flag;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>解法三：构建一个布尔数组，索引值i对应的标记指示该字符串是否含有字母表第i个字符。若这个字符第二次出现，则返回false</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">method</span><span class="params">(String s)</span> </span>&#123;</div><div class="line"><span class="comment">// ASCII码，只有256个字符</span></div><div class="line">  <span class="keyword">if</span>(s.length()&gt;<span class="number">256</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">  <span class="keyword">boolean</span>[] char_set = <span class="keyword">new</span> <span class="keyword">boolean</span>[<span class="number">256</span>];</div><div class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.length();i++)&#123;</div><div class="line"><span class="comment">//  获取s字符串的第i个字符，并且自动转换成int</span></div><div class="line">    <span class="keyword">int</span> temp = s.charAt(i);</div><div class="line">    <span class="keyword">if</span>(char_set[temp]==<span class="keyword">true</span>)&#123;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">    char_set[temp] = <span class="keyword">true</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>解法四：使用位运算，只需要一个int变量</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">method4</span><span class="params">(String s)</span></span>&#123;</div><div class="line">  <span class="keyword">if</span>(s.length()&gt;<span class="number">26</span>) <span class="keyword">return</span> <span class="keyword">false</span>; </div><div class="line">  <span class="keyword">int</span> checker = <span class="number">0</span>;</div><div class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.length();i++)&#123;</div><div class="line">    <span class="keyword">int</span> val = s.charAt(i)-<span class="string">'a'</span>;</div><div class="line">    <span class="keyword">if</span>((checker &amp; (<span class="number">1</span>&lt;&lt;val))&gt;<span class="number">0</span>)&#123;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">    checker |= (<span class="number">1</span>&lt;&lt;val);</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们以”helho”举例<br>‘a’ASCII为97</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>val</th>
+<th>checker</th>
+<th>1&lt;&lt;val</th>
+<th>checker&amp;(1&lt;&lt;val)</th>
+<th>(checkerI(1&lt;&lt;val)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>h-104</td>
+<td>7</td>
+<td>0</td>
+<td>2^7</td>
+<td>0</td>
+<td>2^7</td>
+</tr>
+<tr>
+<td>e-101</td>
+<td>4</td>
+<td>2^7</td>
+<td>2^4</td>
+<td>0</td>
+<td>2^7+2^4</td>
+</tr>
+<tr>
+<td>l-108</td>
+<td>11</td>
+<td>2^7+2^4</td>
+<td>2^11</td>
+<td>0</td>
+<td>2^11+2^7+2^4</td>
+</tr>
+<tr>
+<td>h-104</td>
+<td>7</td>
+<td>2^11+2^7+2^4</td>
+<td>2^7</td>
+<td>2^7 返回false</td>
+</tr>
+<tr>
+<td>如果是大写的话</td>
+</tr>
+<tr>
+<td>H-72</td>
+<td>-25</td>
+<td>2^11+2^7+2^4</td>
+<td>2^7</td>
+<td>2^7返回false </td>
+</tr>
+</tbody>
+</table>
+<p>这个算法的精妙之处在于我们用位运算+int保存了那个唯一的val，当val再次出现的时候，就立即返回false。但是通过上面的表格我们也可以看出认为大小写是一样的。所以这里字符串要不是a-z或者A-Z。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Git基本概念和操作]]></title>
+      <url>https://yoursite.com/2017/01/10/Git%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E5%92%8C%E6%93%8D%E4%BD%9C/</url>
+      <content type="html"><![CDATA[<p>简单介绍Git的基本概念和操作，也算是一个简单的笔记记录。</p>
+<a id="more"></a>
+<h2 id="Git是什么？"><a href="#Git是什么？" class="headerlink" title="Git是什么？"></a>Git是什么？</h2><p>Git英语解释“a person, especially a man, who is stupid or unpleasant”</p>
+<p>Git的作者说过：“I’m an egotistical bastard, and I name all my projects after myself. First Linux, now git.”</p>
+<p>呵呵！！</p>
+<p>Git是一个分布式管理工具</p>
+<h2 id="Git的三种状态以及对应的三个工作区"><a href="#Git的三种状态以及对应的三个工作区" class="headerlink" title="Git的三种状态以及对应的三个工作区"></a>Git的三种状态以及对应的三个工作区</h2><p>已提交(committed):表示数据已经安全的保存在本地数据库中。–Git仓库</p>
+<p>已修改(modified):表示已修改了文件，但还没保存到数据库中。–工作目录</p>
+<p>已暂存(staged):表示对一个已修改的文件的当前版本做了标记，使之包含在下次提交的快照中。–暂存区域</p>
+<p>如果Git目录中保存着的特定版本文件，就属于已提交状态。如果做了修改并已放入暂存区域，就属于已暂存状态。如果自上次取出之后，做了修改但还没有放到暂存区域，就是已修改状态。</p>
+<h2 id="使用Git"><a href="#使用Git" class="headerlink" title="使用Git"></a>使用Git</h2><p>配置用户信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git config --global user.name <span class="string">"John Doe"</span></div><div class="line">git config --global user.email johndoe@example.com</div></pre></td></tr></table></figure>
+<p>查看用户信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git config --list</div></pre></td></tr></table></figure>
+<p>获取帮助</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">help</span> //有详细的操作说明</div></pre></td></tr></table></figure>
+<p>初始化仓库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git init</div></pre></td></tr></table></figure>
+<p>克隆仓库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/lizhifeng1994/DailyRecord.git name(仓库重，命名)</div></pre></td></tr></table></figure>
+<p>检查当前文件状态</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git status</div></pre></td></tr></table></figure>
+<p>添加内容到下一次提交中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git add file_name</div></pre></td></tr></table></figure>
+<p>查看尚未暂存的文件更新了哪些部分，比较工作目录中当前文件和暂存区域快照之间的差异，也就是修改之后还没有暂存起来的变化的内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git diff</div><div class="line"></div><div class="line">git diff --cached/staged //查看已暂存的将要添加到下次提交里的内容</div></pre></td></tr></table></figure>
+<p>提交。每一次提交操作，都是对你项目做一次快照，以后可以回到这个状态，或者进行比较</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git commit -m <span class="string">"提交信息"</span></div></pre></td></tr></table></figure>
+<p>移除文件。从暂存区移除，并连带从共工作目录中删除指定文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">git rm file_name</div><div class="line"></div><div class="line">//如果删除之前已经修改并且已经放到暂存区的话，则必须使用强制删除选项 <span class="_">-f</span></div><div class="line">git rm <span class="_">-f</span> file_name</div><div class="line"></div><div class="line">//从暂存区域移除，但仍然保存在当前工作目录中。文件继续保留在磁盘中，但是git并不进行跟踪</div><div class="line">git rm --cached file_name</div></pre></td></tr></table></figure>
+<p>移动文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">git mv file_from file_to</div><div class="line"></div><div class="line">//其实相当于</div><div class="line">mv file_from file_to</div><div class="line">git rm file_form</div><div class="line">git add file_to</div></pre></td></tr></table></figure>
+<p>查看提交历史</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">git <span class="built_in">log</span> //按提交时间列出所有更新，最近的更新排在最上面</div><div class="line"></div><div class="line">git <span class="built_in">log</span> -p -2 //显示最近两次提交的内容差异</div></pre></td></tr></table></figure>
+<p>此命令会将暂存区的文件提交。如果上次提交以来你还未做任何修改，那么快照保持不变，而你所修改的只是提交信息。文本编辑器启动后，可以看到之前的提交信息。编辑后保存会覆盖原来的提交信息。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git commit -m <span class="string">"test"</span></div><div class="line">git add file1</div><div class="line">git commit --amend</div><div class="line">//最终只会有一个提交</div></pre></td></tr></table></figure>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[简单谈谈触发器]]></title>
       <url>https://yoursite.com/2017/01/05/%E7%AE%80%E5%8D%95%E8%B0%88%E8%B0%88%E8%A7%A6%E5%8F%91%E5%99%A8/</url>
       <content type="html"><![CDATA[<p>在DailyReocrd中用到了触发器，这里做一个简单的记录和总结。</p>
